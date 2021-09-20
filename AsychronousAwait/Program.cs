@@ -127,6 +127,38 @@ namespace AsychronousAwait
             //1. use ConfigureAwait(false) wherever possible
             //2. use async all the way down (i.e., make all method as async)
         }
+
+
+
+        static async Task Main1(string[] args)
+        {
+            Task<int> task = ReadFile("E:\\sampleFile.txt");
+            Console.WriteLine(" Other Work 1");
+            Console.WriteLine(" Other Work 2");
+            Console.WriteLine(" Other Work 3");
+            int length = await task;
+            Console.WriteLine(" Total length: " + length);
+            Console.WriteLine(" After work 1");
+            Console.WriteLine(" After work 2");
+            Console.ReadKey();
+        }
+
+        static async Task<int> ReadFile(string file)
+        {
+            int length = 0;
+
+            Console.WriteLine(" File reading is stating");
+            using (StreamReader reader = new StreamReader(file))
+            {
+                // Reads all characters from the current position to the end of the stream asynchronously
+                // and returns them as one string.
+                string s = await reader.ReadToEndAsync();
+
+                length = s.Length;
+            }
+            Console.WriteLine(" File reading is completed");
+            return length;
+        }
         static async Task waitAsync()
         {
             Console.WriteLine("Hello waitAsync!!!");
